@@ -51,15 +51,16 @@ public class AuthenticationController {
 
     //----------------------------LOGIN----------------------------
     //----------------------------LOGIN----------------------------
-    @GetMapping(value = "/login")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginForm(Model model) {
-        model.addAttribute("user", new AuthenticationRequest());
+        model.addAttribute("authenticationRequest", new AuthenticationRequest());
         return "login";
     }
 
-    @PostMapping(value = "/login")
-    public String loginForm( @ModelAttribute("user") @RequestBody AuthenticationRequest request) {
-        AuthenticationResponse authenticate = service.authenticate(request);
+    //
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String loginForm(@ModelAttribute("authenticationRequest") @RequestBody AuthenticationRequest authenticationRequest) {
+        AuthenticationResponse authenticate = service.authenticate(authenticationRequest);
 
 //        if (myUser.isPresent()) {
 //            if (myUser.get().getPassword().equals(user.getPassword()))
@@ -70,6 +71,20 @@ public class AuthenticationController {
 //            return "user-not-found";
 //        }
     }
+
+    // Login form
+//    @RequestMapping(value = {"/login", "/"})
+//    public String login(@ModelAttribute(value = "authenticationRequest") AuthenticationRequest authenticationRequest) {
+//        AuthenticationResponse authenticate = null;
+//        if (authenticationRequest.getPassword() != null && authenticationRequest.getEmail() != null)
+//            authenticate = service.authenticate(authenticationRequest);
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+//            return "login";
+//        }
+//        return "redirect:/index";
+//    }
+
 
     //------------------------------------------------------------
 

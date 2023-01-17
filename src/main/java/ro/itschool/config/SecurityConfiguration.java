@@ -46,7 +46,7 @@ public class SecurityConfiguration {
                 .defaultSuccessUrl("/demo")
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/register")
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
