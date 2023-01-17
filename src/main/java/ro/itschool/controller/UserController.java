@@ -1,8 +1,10 @@
 package ro.itschool.controller;
 
 
+import org.springframework.web.server.ResponseStatusException;
 import ro.itschool.entity.MyRole;
 import ro.itschool.entity.MyUser;
+import ro.itschool.exceptions.MyResourceNotFoundException;
 import ro.itschool.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +17,6 @@ import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/user")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class UserController {
 
     @Autowired
@@ -31,6 +32,7 @@ public class UserController {
     //TODO Update user
     //TODO getUsersByRole
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/update-role/{id}")
     public ResponseEntity updateRole(@PathVariable Integer id, @RequestBody Set<MyRole> roles) {
         Optional<MyUser> optionalUser = userService.findById(id);
@@ -41,6 +43,6 @@ public class UserController {
             });
             return ResponseEntity.ok().build();
         } else
-            return ResponseEntity.badRequest().build();
+            return new ResponseEntity<>("User with id" + id + " was not found", HttpStatus.BAD_REQUEST);
     }
 }

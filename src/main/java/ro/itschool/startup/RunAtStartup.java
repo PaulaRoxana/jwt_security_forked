@@ -1,7 +1,6 @@
 package ro.itschool.startup;
 
 import ro.itschool.controller.model.AuthenticationResponse;
-import com.alibou.security.entity.*;
 import ro.itschool.entity.MyRole;
 import ro.itschool.entity.RoleName;
 import ro.itschool.repository.RoleRepository;
@@ -33,31 +32,31 @@ public class RunAtStartup {
 
         //CREATE USER WITH ROLES USER AND ADMIN
 
-        RestTemplate restTemplate = new RestTemplate();
-
-        MyUser user = new MyUser();
-        user.setLastname("Doe");
-        user.setFirstname("John");
-        user.setEmail("johndoe@email.com");
-        user.setPassword("password");
-        user.setRoles(Set.of(userRole));
-
-
-        //Create user with ROLE_USER
-        HttpEntity<MyUser> request = new HttpEntity<>(user);
-        AuthenticationResponse authenticationResponse = restTemplate.postForObject("http://localhost:8080/auth/register", request, AuthenticationResponse.class);
-        System.out.println(authenticationResponse.getToken());
-
-        //Add ROLE_ADMIN to newly created user
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(authenticationResponse.getToken());
-
-        HttpEntity<Set<MyRole>> requestEntity =
-                new HttpEntity<>(Set.of(userRole, adminRole), headers);
-
-        restTemplate.put("http://localhost:8080/user/update-role/1", requestEntity);
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        MyUser user = new MyUser();
+//        user.setLastname("Doe");
+//        user.setFirstname("John");
+//        user.setEmail("johndoe@email.com");
+//        user.setPassword("password");
+//        user.setRoles(Set.of(userRole));
+//
+//
+//        //Create user with ROLE_USER
+//        HttpEntity<MyUser> request = new HttpEntity<>(user);
+//        AuthenticationResponse authenticationResponse = restTemplate.postForObject("http://localhost:8080/register", request, AuthenticationResponse.class);
+//        System.out.println(authenticationResponse.getToken());
+//
+//        //Add ROLE_ADMIN to newly created user
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        headers.setBearerAuth(authenticationResponse.getToken());
+//
+//        HttpEntity<Set<MyRole>> requestEntity =
+//                new HttpEntity<>(Set.of(userRole, adminRole), headers);
+//
+//        restTemplate.put("http://localhost:8080/user/update-role/1", requestEntity);
 
 
     }

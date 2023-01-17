@@ -27,19 +27,33 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        "/auth/**", //needed for login and register
-                        "/swagger-ui/**", //needed for swagger
-                        "/v3/api-docs/**" //needed for swagger
+//                        "/login",
+//                        "/login-error",
+                        "/register",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/api/v1/demo-controller/**",
+                        "/register-successful"
                 )
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .failureUrl("/login-error")
+                .defaultSuccessUrl("/demo")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login")
+                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+        ;
 
         return http.build();
     }

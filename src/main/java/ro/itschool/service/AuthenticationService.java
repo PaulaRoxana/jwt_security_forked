@@ -27,7 +27,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
 
-        MyRole userRole = roleRepository.findByName(RoleName.ROLE_ADMIN);
+        MyRole userRole = roleRepository.findByName(RoleName.ROLE_USER);
         var user = MyUser.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
